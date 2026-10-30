@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ms" class="w-full h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Interaktif - Sheikh Muhammad Arif</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            yellow: '#facc15',
+                            yellowDark: '#eab308',
+                            emerald: '#059669',
+                            emeraldDark: '#022c22',
+                            amber: '#f59e0b',
+                            sky: '#0284c7'
+                        }
+                    },
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                        jakarta: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html, body {
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #fef9c3 0%, #dcfce7 50%, #e0f2fe 100%);
+            color: #0f172a;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Fredoka', cursive, sans-serif;
+        }
+        
+        /* Vibrant Cheerful Glass Card */
+        .glass-profile-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            border: 3px solid #facc15;
+            box-shadow: 0 25px 50px -12px rgba(234, 179, 8, 0.25);
+        }
+
+        /* Hero Banner Gradient */
+        .cheerful-banner {
+            background: linear-gradient(135deg, #065f46 0%, #047857 50%, #0f172a 100%);
+            border-bottom: 5px solid #facc15;
+        }
+
+        /* Soft Floating Photo Animation */
+        @keyframes floatBounce {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+        .animate-float {
+            animation: floatBounce 3.5s ease-in-out infinite;
+        }
+
+        /* Pulsing Click Hint */
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.06); opacity: 1; }
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 2s infinite ease-in-out;
+        }
+
+        /* Interactive Button Hover */
+        .btn-bounce {
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-bounce:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 12px 20px -5px rgba(5, 150, 105, 0.3);
+        }
+        .btn-bounce:active {
+            transform: translateY(1px) scale(0.97);
+        }
+
+        /* Tab Active Styling */
+        .tab-btn.active {
+            background-color: #059669;
+            color: #ffffff;
+            border-color: #facc15;
+            box-shadow: 0 6px 16px rgba(5, 150, 105, 0.35);
+        }
+
+        /* Toast Popup Animation */
+        @keyframes slideInUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-toast {
+            animation: slideInUp 0.3s forwards ease-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-center items-center p-3 sm:p-6 md:p-10 w-full">
+
+    <!-- CANVAS CONFETTI FOR INTERACTIVE EFFECTS -->
+    <canvas id="confettiCanvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 hidden">
+        <div class="bg-slate-900 text-amber-300 border-2 border-amber-400 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 animate-toast font-bold text-xs sm:text-sm">
+            <span class="text-xl">✨</span>
+            <span id="toastMessage">Mesej Notifikasi</span>
+        </div>
+    </div>
+
+    <!-- MAIN PROFILE CONTAINER -->
+    <div class="w-full max-w-[1200px] mx-auto space-y-6">
+
+        <!-- HEADER STATUS BADGE -->
+        <div class="flex flex-wrap items-center justify-between gap-3 bg-emerald-950 text-white px-6 py-3.5 rounded-3xl shadow-xl border-2 border-amber-400">
+            <div class="flex items-center gap-3">
+                <span class="w-3.5 h-3.5 rounded-full bg-amber-400 animate-ping"></span>
+                <span class="text-xs md:text-sm font-extrabold tracking-wide text-amber-300 uppercase">
+                    👨‍🏫 Profil Digital Pendidik • IPG Kampus Tengku Ampuan Afzan
+                </span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="bg-amber-400 text-slate-950 font-black px-3 py-1 rounded-full text-xs shadow">
+                    ✨ PISMP Pendidikan Islam
+                </span>
+            </div>
+        </div>
+
+        <!-- MAIN HERO CARD -->
+        <div class="glass-profile-card rounded-3xl overflow-hidden">
+            
+            <!-- BANNER HERO -->
+            <div class="cheerful-banner p-6 sm:p-8 md:p-12 text-white relative">
+                <!-- Background Accent Glowing Circles -->
+                <div class="absolute -right-10 -top-10 w-72 h-72 bg-amber-400/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-10 -bottom-10 w-72 h-72 bg-emerald-400/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-10">
+                    
+                    <!-- USER PHOTO FRAME (CLICKABLE WITH ANIMATION) -->
+                    <div class="md:col-span-5 lg:col-span-4 flex flex-col items-center text-center space-y-4">
+                        
+                        <div class="relative group cursor-pointer" id="triggerPhotoDetail">
+                            
+                            <!-- Pulsing Halo Glow Ring -->
+                            <div class="absolute -inset-3 bg-gradient-to-r from-amber-400 via-emerald-400 to-amber-300 rounded-3xl blur-md opacity-80 group-hover:opacity-100 transition duration-500 animate-pulse-glow"></div>
+                            
+                            <!-- Main Photo Box -->
+                            <div class="relative w-48 h-60 sm:w-56 sm:h-72 rounded-3xl overflow-hidden border-4 border-amber-300 shadow-2xl bg-slate-900 animate-float flex items-center justify-center">
+                                <img src="https://raw.githubusercontent.com/smassrgb/Jotform/main/aa%20(2).png" alt="Sheikh Muhammad Arif" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='https://github.com/smassrgb/Jotform/raw/main/aa%20(2).png';">
+                                
+                                <!-- Floating Label -->
+                                <div class="absolute bottom-3 inset-x-3 bg-slate-950/90 backdrop-blur-md py-1.5 px-3 rounded-2xl border border-amber-300/60 text-xs font-black text-amber-300 text-center shadow-lg">
+                                    Ustaz Sheikh 👨‍🏫
+                                </div>
+                            </div>
+
+                            <!-- Interactive Click Badge Indicator -->
+                            <div class="absolute -top-3 -right-3 bg-amber-400 text-slate-950 font-black text-[11px] px-3 py-1.5 rounded-full border-2 border-slate-900 shadow-xl flex items-center gap-1 animate-bounce">
+                                👆 Tekan Saya!
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-amber-200 font-bold bg-emerald-950/80 px-4 py-1.5 rounded-full border border-amber-300/40">
+                            💡 Tekan gambar di atas untuk profil terperinci!
+                        </p>
+                    </div>
+
+                    <!-- HERO INTRO TEXT & SUMMARY -->
+                    <div class="md:col-span-7 lg:col-span-8 space-y-5">
+                        
+                        <div>
+                            <span class="bg-amber-400 text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider">
+                                Selamat Datang!
+                            </span>
+                            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-amber-300 mt-2">
+                                Sheikh Muhammad Arif
+                            </h1>
+                            <p class="text-sm sm:text-base text-emerald-200 font-bold mt-1">
+                                Bin Sheikh Zainal Abidin • Unit Pendidikan Islam 3
+                            </p>
+                            <p class="text-xs sm:text-sm text-gray-300 mt-0.5">
+                                Institut Pendidikan Guru Kampus Tengku Ampuan Afzan (IPGKAA)
+                            </p>
+                        </div>
+
+                        <!-- Falsafah / Quote Box -->
+                        <div class="bg-white/95 text-slate-900 p-5 md:p-6 rounded-3xl shadow-xl space-y-2 border-2 border-amber-300">
+                            <div class="flex items-center justify-between border-b border-gray-200 pb-2">
+                                <span class="text-xs font-black uppercase text-emerald-800 tracking-wider flex items-center gap-1.5">
+                                    🌟 Falsafah & Visi Pendidikan:
+                                </span>
+                                <span class="bg-amber-100 text-amber-900 text-[10px] font-bold px-2.5 py-0.5 rounded-full">
+                                    Pendidik Rabbani
+                                </span>
+                            </div>
+
+                            <p class="text-xs sm:text-sm font-bold text-slate-800 leading-relaxed italic">
+                                "Mendidik generasi muda dengan integrasi ilmu syarak dan teknologi digital yang interaktif demi melahirkan insan bertakwa, berinovasi, dan berakhlak mulia."
+                            </p>
+                        </div>
+
+                        <!-- Highlights Stat Counter Grid -->
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-700 text-center">
+                                <div class="text-xl sm:text-2xl font-black text-amber-300">IPGKAA</div>
+                                <div class="text-[10px] sm:text-xs text-emerald-200 font-semibold">Kampus Pengajian</div>
+                            </div>
+                            <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-700 text-center">
+                                <div class="text-xl sm:text-2xl font-black text-amber-300">PI 3</div>
+                                <div class="text-[10px] sm:text-xs text-emerald-200 font-semibold">Unit Pengajian</div>
+                            </div>
+                            <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-700 text-center">
+                                <div class="text-xl sm:text-2xl font-black text-amber-300">2026/30</div>
+                                <div class="text-[10px] sm:text-xs text-emerald-200 font-semibold">Sesi PISMP</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABBED DETAILS NAVIGATION SECTION -->
+            <div class="p-6 sm:p-8 md:p-10 space-y-6">
+                
+                <!-- NAVIGATION TABS -->
+                <div class="flex flex-wrap gap-2.5 border-b-2 border-gray-200 pb-4">
+                    <button data-tab-id="biodata" id="tab-biodata" class="tab-btn active px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold border-2 border-transparent transition btn-bounce flex items-center gap-2">
+                        <span>👤</span> Biodata Diri
+                    </button>
+                    <button data-tab-id="akademik" id="tab-akademik" class="tab-btn px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold bg-slate-100 text-slate-700 hover:bg-emerald-50 border-2 border-transparent transition btn-bounce flex items-center gap-2">
+                        <span>🎓</span> Latar Belakang IPG
+                    </button>
+                    <button data-tab-id="kepakaran" id="tab-kepakaran" class="tab-btn px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold bg-slate-100 text-slate-700 hover:bg-emerald-50 border-2 border-transparent transition btn-bounce flex items-center gap-2">
+                        <span>💻</span> Kepakaran & Teknologi
+                    </button>
+                    <button data-tab-id="hubungi" id="tab-hubungi" class="tab-btn px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold bg-slate-100 text-slate-700 hover:bg-emerald-50 border-2 border-transparent transition btn-bounce flex items-center gap-2">
+                        <span>📞</span> Hubungi Saya
+                    </button>
+                </div>
+
+                <!-- TAB 1: BIODATA DIRI -->
+                <div id="content-biodata" class="tab-content-panel block space-y-4">
+                    <h3 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                        📌 Maklumat Peribadi & Pengenalan
+                    </h3>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs sm:text-sm">
+                        <div class="p-4 bg-emerald-50/80 border-2 border-emerald-200 rounded-2xl space-y-1">
+                            <span class="text-[11px] font-black text-emerald-800 uppercase tracking-wider">Nama Penuh</span>
+                            <p class="font-extrabold text-slate-900">Sheikh Muhammad Arif bin Sheikh Zainal Abidin</p>
+                        </div>
+                        <div class="p-4 bg-emerald-50/80 border-2 border-emerald-200 rounded-2xl space-y-1">
+                            <span class="text-[11px] font-black text-emerald-800 uppercase tracking-wider">Agama & Bangsa</span>
+                            <p class="font-extrabold text-slate-900">Islam / Melayu</p>
+                        </div>
+                        <div class="p-4 bg-emerald-50/80 border-2 border-emerald-200 rounded-2xl space-y-1">
+                            <span class="text-[11px] font-black text-emerald-800 uppercase tracking-wider">Program Pengajian</span>
+                            <p class="font-extrabold text-slate-900">PISMP Pendidikan Islam</p>
+                        </div>
+                        <div class="p-4 bg-emerald-50/80 border-2 border-emerald-200 rounded-2xl space-y-1">
+                            <span class="text-[11px] font-black text-emerald-800 uppercase tracking-wider">Unit Pengajian</span>
+                            <p class="font-extrabold text-slate-900">Pendidikan Islam 3 (PI 3)</p>
+                        </div>
+                        <div class="p-4 bg-emerald-50/80 border-2 border-emerald-200 rounded-2xl space-y-1">
+                            <span class="text-[11px] font-black text-emerald-800 uppercase tracking-wider">Institut</span>
+                            <p class="font-extrabold text-slate-900">IPG Kampus Tengku Ampuan Afzan</p>
+                        </div>
+                        <div class="p-4 bg-emerald-50/80 border-2 border-emerald-200 rounded-2xl space-y-1">
+                            <span class="text-[11px] font-black text-emerald-800 uppercase tracking-wider">Lokasi Institusi</span>
+                            <p class="font-extrabold text-slate-900">Kuala Lipis, Pahang</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: LATAR BELAKANG IPG -->
+                <div id="content-akademik" class="tab-content-panel hidden space-y-4">
+                    <h3 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                        🎓 Pengajian di Institut Pendidikan Guru
+                    </h3>
+
+                    <div class="bg-gradient-to-br from-emerald-900 via-slate-900 to-emerald-950 text-white p-6 md:p-8 rounded-3xl space-y-4 border-4 border-amber-400 shadow-xl">
+                        <div class="flex items-center justify-between border-b border-emerald-800 pb-3">
+                            <span class="bg-amber-400 text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase">
+                                IPG KPM
+                            </span>
+                            <span class="text-xs text-amber-300 font-bold">
+                                Sesi Ambilan 2026/2030
+                            </span>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-extrabold text-amber-300">IPG Kampus Tengku Ampuan Afzan</h4>
+                            <p class="text-xs text-gray-300 mt-1">27200 Kuala Lipis, Pahang Darul Makmur</p>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs sm:text-sm">
+                            <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 space-y-1">
+                                <span class="text-amber-300 font-extrabold block">Teras Pengajian:</span>
+                                PISMP Pendidikan Islam Sekolah Rendah (KSSR)
+                            </div>
+                            <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 space-y-1">
+                                <span class="text-amber-300 font-extrabold block">Fokus Kursus:</span>
+                                Pedagogi Pendidikan Islam & Teknologi untuk Pengajaran (EDUP 6023)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: KEPAKARAN & TEKNOLOGI -->
+                <div id="content-kepakaran" class="tab-content-panel hidden space-y-4">
+                    <h3 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                        💻 Bidang Kepakaran & Inovasi Digital
+                    </h3>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="p-5 bg-amber-50 border-2 border-amber-300 rounded-3xl space-y-2 shadow-sm">
+                            <div class="w-10 h-10 bg-amber-400 text-slate-950 rounded-2xl flex items-center justify-center font-bold text-lg">🎨</div>
+                            <h4 class="text-base font-extrabold text-slate-900">Reka Bentuk Multimedia</h4>
+                            <p class="text-xs text-gray-700">Merekabentuk grafik interaktif, aplikasi web PdP, dan bahan bantu mengajar berasaskan visual.</p>
+                        </div>
+
+                        <div class="p-5 bg-emerald-50 border-2 border-emerald-300 rounded-3xl space-y-2 shadow-sm">
+                            <div class="w-10 h-10 bg-emerald-600 text-white rounded-2xl flex items-center justify-center font-bold text-lg">📐</div>
+                            <h4 class="text-base font-extrabold text-slate-900">Model ADDIE</h4>
+                            <p class="text-xs text-gray-700">Mengaplikasikan fasa Analisis, Reka Bentuk, Pembangunan, Pelaksanaan, dan Penilaian dalam PdP.</p>
+                        </div>
+
+                        <div class="p-5 bg-sky-50 border-2 border-sky-300 rounded-3xl space-y-2 shadow-sm">
+                            <div class="w-10 h-10 bg-sky-500 text-white rounded-2xl flex items-center justify-center font-bold text-lg">📱</div>
+                            <h4 class="text-base font-extrabold text-slate-900">Aplikasi Web & Jotform</h4>
+                            <p class="text-xs text-gray-700">Membina modul pentaksiran interaktif, kuiz automatik, dan borang PBD mesra murid.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: HUBUNGI SAYA -->
+                <div id="content-hubungi" class="tab-content-panel hidden space-y-4">
+                    <h3 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                        📞 Saluran Perhubungan Digital
+                    </h3>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        
+                        <!-- Contact Action Card 1 -->
+                        <div class="p-6 bg-white border-2 border-emerald-200 rounded-3xl space-y-4 shadow-sm hover:border-emerald-500 transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-2xl flex items-center justify-center font-bold text-xl">💬</div>
+                                <div>
+                                    <span class="text-[10px] font-bold text-gray-500 uppercase">Mesej Segera</span>
+                                    <p class="font-extrabold text-slate-900 text-sm">Hubungi via Mesej</p>
+                                </div>
+                            </div>
+                            <button id="btnActionMessage" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold py-3 rounded-2xl text-xs btn-bounce">
+                                📩 Hantar Mesej
+                            </button>
+                        </div>
+
+                        <!-- Contact Action Card 2 -->
+                        <div class="p-6 bg-white border-2 border-amber-200 rounded-3xl space-y-4 shadow-sm hover:border-amber-500 transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-amber-100 text-amber-800 rounded-2xl flex items-center justify-center font-bold text-xl">✉️</div>
+                                <div>
+                                    <span class="text-[10px] font-bold text-gray-500 uppercase">E-mel Rasmi</span>
+                                    <p class="font-extrabold text-slate-900 text-xs truncate">E-mel Perhubungan</p>
+                                </div>
+                            </div>
+                            <button id="btnActionEmail" class="w-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold py-3 rounded-2xl text-xs btn-bounce">
+                                ✉️ Buka E-Mel
+                            </button>
+                        </div>
+
+                        <!-- Contact Action Card 3 -->
+                        <div class="p-6 bg-white border-2 border-slate-200 rounded-3xl space-y-4 shadow-sm hover:border-slate-500 transition sm:col-span-2 lg:col-span-1">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-slate-100 text-slate-800 rounded-2xl flex items-center justify-center font-bold text-xl">🪪</div>
+                                <div>
+                                    <span class="text-[10px] font-bold text-gray-500 uppercase">Kad QR Profil</span>
+                                    <p class="font-extrabold text-slate-900 text-xs">Imbasan Kod Akses</p>
+                                </div>
+                            </div>
+                            <button id="btnOpenQrModal" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-3 rounded-2xl text-xs btn-bounce">
+                                🔍 Paparkan Kod QR
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- FOOTER BAR -->
+            <div class="bg-slate-950 text-slate-300 p-4 text-center text-xs border-t border-slate-800">
+                Kad Profil Digital Interaktif • <strong>Sheikh Muhammad Arif bin Sheikh Zainal Abidin</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- INTERACTIVE DETAIL MODAL (POPUP ON PHOTO CLICK) -->
+    <!-- ========================================================= -->
+    <div id="photoDetailModal" class="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 card-shadow border-4 border-amber-400 space-y-5 relative animate-toast">
+            
+            <!-- Close Button -->
+            <button id="btnClosePhotoModalX" class="absolute top-4 right-4 bg-slate-100 hover:bg-red-100 text-slate-500 hover:text-red-600 rounded-2xl w-10 h-10 flex items-center justify-center font-bold text-lg transition">
+                ✕
+            </button>
+
+            <!-- Modal Header -->
+            <div class="text-center space-y-2 border-b border-gray-100 pb-4">
+                <span class="bg-amber-400 text-slate-950 font-black text-xs px-3.5 py-1 rounded-full uppercase tracking-wider">
+                    Maklumat Profil Terperinci
+                </span>
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
+                    Sheikh Muhammad Arif
+                </h3>
+                <p class="text-xs text-emerald-700 font-bold">
+                    Siswa Guru Pendidikan Islam • IPG Kampus Tengku Ampuan Afzan
+                </p>
+            </div>
+
+            <!-- Modal Content Details -->
+            <div class="space-y-3 text-xs sm:text-sm">
+                
+                <div class="p-3.5 bg-emerald-50 rounded-2xl border border-emerald-200 flex items-center gap-3">
+                    <span class="text-xl">🎓</span>
+                    <div>
+                        <strong class="text-slate-900 block font-extrabold">Program & Unit:</strong>
+                        <span class="text-gray-700">PISMP Pendidikan Islam 3 (Ogos 2026 / 2030)</span>
+                    </div>
+                </div>
+
+                <div class="p-3.5 bg-amber-50 rounded-2xl border border-amber-200 flex items-center gap-3">
+                    <span class="text-xl">🏫</span>
+                    <div>
+                        <strong class="text-slate-900 block font-extrabold">Institusi Pengajian:</strong>
+                        <span class="text-gray-700">IPG Kampus Tengku Ampuan Afzan, Kuala Lipis, Pahang</span>
+                    </div>
+                </div>
+
+                <div class="p-3.5 bg-sky-50 rounded-2xl border border-sky-200 flex items-center gap-3">
+                    <span class="text-xl">💡</span>
+                    <div>
+                        <strong class="text-slate-900 block font-extrabold">Minat & Kepakaran:</strong>
+                        <span class="text-gray-700">Multimedia PdP, Reka Bentuk Web Interaktif, Gamifikasi Pembelajaran Islam</span>
+                    </div>
+                </div>
+
+                <div class="p-3.5 bg-purple-50 rounded-2xl border border-purple-200 flex items-center gap-3">
+                    <span class="text-xl">⭐</span>
+                    <div>
+                        <strong class="text-slate-900 block font-extrabold">Matlamat Kerjaya:</strong>
+                        <span class="text-gray-700">Menjadi Pendidik Rabbani yang memanfaatkan inovasi teknologi digital terkini.</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Modal Action Footer -->
+            <div class="pt-2 flex justify-end">
+                <button id="btnClosePhotoModalBtn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold py-3 rounded-2xl text-xs btn-bounce">
+                    Tutup Maklumat
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR CODE MODAL POPUP -->
+    <div id="profileQrModal" class="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center space-y-4 border-4 border-amber-400 shadow-2xl animate-toast">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="font-extrabold text-slate-900 text-base">Kod QR Profil Digital</h3>
+                <button id="btnCloseQrX" class="text-gray-400 hover:text-red-500 font-bold text-lg">✕</button>
+            </div>
+            
+            <div class="bg-slate-900 p-5 rounded-3xl border-2 border-amber-300 flex justify-center">
+                <svg class="w-48 h-48 text-amber-300" viewBox="0 0 100 100" fill="currentColor">
+                    <rect width="100" height="100" fill="#0f172a"/>
+                    <rect x="10" y="10" width="25" height="25" fill="#facc15"/>
+                    <rect x="15" y="15" width="15" height="15" fill="#0f172a"/>
+                    <rect x="18" y="18" width="9" height="9" fill="#facc15"/>
+                    <rect x="65" y="10" width="25" height="25" fill="#facc15"/>
+                    <rect x="70" y="15" width="15" height="15" fill="#0f172a"/>
+                    <rect x="73" y="18" width="9" height="9" fill="#facc15"/>
+                    <rect x="10" y="65" width="25" height="25" fill="#facc15"/>
+                    <rect x="15" y="70" width="15" height="15" fill="#0f172a"/>
+                    <rect x="18" y="73" width="9" height="9" fill="#facc15"/>
+                    <rect x="40" y="15" width="10" height="10" fill="#facc15"/>
+                    <rect x="45" y="30" width="15" height="10" fill="#facc15"/>
+                    <rect x="20" y="45" width="10" height="15" fill="#facc15"/>
+                    <rect x="60" y="45" width="25" height="10" fill="#facc15"/>
+                    <rect x="45" y="65" width="15" height="15" fill="#facc15"/>
+                    <rect x="70" y="70" width="15" height="15" fill="#facc15"/>
+                </svg>
+            </div>
+            
+            <p class="text-xs text-gray-600 font-semibold">Imbas Kod QR ini untuk membuka kad profil Sheikh Muhammad Arif.</p>
+            <button id="btnCloseQrBtn" class="w-full bg-slate-900 text-white font-extrabold py-3 rounded-2xl text-xs">Tutup</button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT DELEGATION (NO INLINE ONCLICK FOR JOTFORM COMPATIBILITY & NO SPEECH) -->
+    <script>
+        /* ================= CONFETTI EFFECT FUNCTION ================= */
+        function triggerConfetti() {
+            const canvas = document.getElementById('confettiCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const colors = ['#facc15', '#059669', '#3b82f6', '#ec4899', '#f97316'];
+
+            for (let i = 0; i < 70; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 8 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speed: Math.random() * 5 + 2,
+                    angle: Math.random() * 360
+                });
+            }
+
+            function render() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.angle * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+
+                    p.y += p.speed;
+                    p.angle += 3;
+                });
+
+                if (particles.some(p => p.y < canvas.height)) {
+                    requestAnimationFrame(render);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            render();
+        }
+
+        /* ================= TOAST NOTIFICATION FUNCTION ================= */
+        function showToast(msg) {
+            const container = document.getElementById('toastContainer');
+            const messageEl = document.getElementById('toastMessage');
+            if (!container || !messageEl) return;
+
+            messageEl.textContent = msg;
+            container.classList.remove('hidden');
+
+            setTimeout(() => {
+                container.classList.add('hidden');
+            }, 3000);
+        }
+
+        /* ================= DYNAMIC EVENT LISTENER DELEGATION ================= */
+        document.addEventListener('click', function(e) {
+            
+            // 1. Photo Click -> Trigger Detail Modal + Confetti
+            if (e.target.closest('#triggerPhotoDetail')) {
+                triggerConfetti();
+                document.getElementById('photoDetailModal').classList.remove('hidden');
+                return;
+            }
+
+            // 2. Photo Detail Modal Close
+            if (e.target.closest('#btnClosePhotoModalX') || e.target.closest('#btnClosePhotoModalBtn')) {
+                document.getElementById('photoDetailModal').classList.add('hidden');
+                return;
+            }
+
+            // 3. Tab Switching Logic
+            const tabBtn = e.target.closest('[data-tab-id]');
+            if (tabBtn) {
+                const tabId = tabBtn.getAttribute('data-tab-id');
+                switchProfileTab(tabId);
+                return;
+            }
+
+            // 4. Contact Buttons Actions
+            if (e.target.closest('#btnActionMessage')) {
+                showToast("Fungsi Mesej Segera Dipilih!");
+                return;
+            }
+
+            if (e.target.closest('#btnActionEmail')) {
+                showToast("Fungsi E-mel Rasmi Dipilih!");
+                return;
+            }
+
+            // 5. QR Modal Toggles
+            if (e.target.closest('#btnOpenQrModal') || e.target.closest('#btnCloseQrX') || e.target.closest('#btnCloseQrBtn')) {
+                document.getElementById('profileQrModal').classList.toggle('hidden');
+                return;
+            }
+        });
+
+        /* ================= TAB SWITCHING HELPER ================= */
+        function switchProfileTab(tabId) {
+            // Hide all tab panels
+            document.querySelectorAll('.tab-content-panel').forEach(panel => {
+                panel.classList.add('hidden');
+            });
+            
+            // Deactivate all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('bg-slate-100', 'text-slate-700');
+            });
+
+            // Show selected panel
+            const targetPanel = document.getElementById(`content-${tabId}`);
+            if (targetPanel) {
+                targetPanel.classList.remove('hidden');
+            }
+
+            // Activate selected button
+            const targetBtn = document.getElementById(`tab-${tabId}`);
+            if (targetBtn) {
+                targetBtn.classList.add('active');
+                targetBtn.classList.remove('bg-slate-100', 'text-slate-700');
+            }
+        }
+    </script>
+</body>
+</html>
